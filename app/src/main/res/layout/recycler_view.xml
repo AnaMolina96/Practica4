@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewNombreArchivoFisico"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_slab_bold"
+        android:textColor="?android:attr/colorForeground"
+        android:textSize="18sp"
+        tools:text="Nombre Archivo" />
+
+    <TextView
+        android:id="@+id/textViewNombreDescriptivo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_slab"
+        tools:text="Nombre Descriptivo" />
+
+    <TextView
+        android:id="@+id/textViewLugar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_slab_light"
+        tools:text="Lugar" />
+
+    <TextView
+        android:id="@+id/textViewFecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_slab_light"
+        tools:text="Fecha" />
+
+    <TextView
+        android:id="@+id/textViewDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_slab_light"
+        tools:text="Descripcion" />
+
+    <TextView
+        android:id="@+id/textViewPersonasAnimalesEtc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_slab_light"
+        tools:text="Personas, animales o cosas que aparecen" />
+</LinearLayout>

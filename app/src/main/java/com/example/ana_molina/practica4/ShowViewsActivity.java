@@ -34,6 +34,8 @@ public class ShowViewsActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     boolean bandera= true;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,7 @@ public class ShowViewsActivity extends AppCompatActivity {
 
         if(getlistaFotos!=null){
             listaFotos = (List<Foto>) getIntent().getExtras().getSerializable("getLista");
+            Log.i("TEST", "this is only a test so i can breakpoint something");
         }
 
 /*
@@ -116,7 +119,9 @@ public class ShowViewsActivity extends AppCompatActivity {
         switch (requestCode){
             case AGREGAR_FOTO_ACTIVITY:
             if(resultCode == RESULT_OK){
-                listaFotos = new ArrayList<Foto>();
+                if(listaFotos == null) {
+                    listaFotos = new ArrayList<Foto>();
+                }
                 Bundle showViewActivity = data.getExtras();
                 tipo_vista = showViewActivity.getString("tipo_vista");
                 foto = (Foto) showViewActivity.getSerializable("datos_foto");

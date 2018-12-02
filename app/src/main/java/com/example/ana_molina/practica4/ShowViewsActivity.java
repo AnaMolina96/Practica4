@@ -23,8 +23,9 @@ import java.util.List;
 public class ShowViewsActivity extends AppCompatActivity {
 
 
-    public static int AGREGAR_FOTO_ACTIVITY = 1;
-    private List<Foto> listaFotos = new ArrayList<>();
+    public final int AGREGAR_FOTO_ACTIVITY = 1;
+    List<Foto> listaFotos = new ArrayList<>();
+    List<Foto> getlistaFotos = new ArrayList<>();
     int[ ] atributos = {0,0,0,0,0,0,0};
     private String tipo_vista;
     private Foto foto;
@@ -45,10 +46,25 @@ public class ShowViewsActivity extends AppCompatActivity {
         atributos = informacion.getIntArray("atributos");
         tipo_vista = informacion.getString("tipo_vista");
         foto = (Foto) informacion.getSerializable("datos_foto");
-        listaFotos = (List<Foto>) getIntent().getExtras().getSerializable("lista");
+        listaFotos = new ArrayList<>();
+
+        if(getlistaFotos!=null){
+            listaFotos = (List<Foto>) getIntent().getExtras().getSerializable("getLista");
+        }
+
+/*
+            recyclerView = findViewById(R.id.recycler);
+            recyclerView.setHasFixedSize(true);
+            mLayoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(mLayoutManager);
+            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+            recyclerView.addItemDecoration(mDividerItemDecoration);
+            myAdapterRecyclerView = new MyAdapterRecyclerView(listaFotos);
+            recyclerView.setAdapter(myAdapterRecyclerView);
+
+
 
         if (foto != null) {
-
             listaFotos = (List<Foto>) getIntent().getExtras().getSerializable("lista");
             foto = (Foto) informacion.getSerializable("datos_foto");
 //            Toast.makeText(getApplicationContext(),""+ listaFotos.get(0).getNombre_foto()+"",Toast.LENGTH_LONG).show();
@@ -57,14 +73,8 @@ public class ShowViewsActivity extends AppCompatActivity {
         }
         Log.i("ENTROOOOSEGUNDA","jahsdkhskjadhjkas");
 
-     /*
-        recyclerView.setHasFixedSize(true);
-            mLayoutManager = new LinearLayoutManager(this);
-            recyclerView.setLayoutManager(mLayoutManager);
-            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            recyclerView.addItemDecoration(mDividerItemDecoration);
-            myAdapterRecyclerView = new MyAdapterRecyclerView(listaFotos);
-            recyclerView.setAdapter(myAdapterRecyclerView);
+
+
 
         listaFotos.add(new Foto("Anita", "Es una hermosa","Mexicali, BC",date,"Una hermosa humana",
                 "ajkshdksa",getResources().getDrawable(R.drawable.ic_launcher_background)));
@@ -103,26 +113,25 @@ public class ShowViewsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
        Toast.makeText(ShowViewsActivity.this,"ENTRO AL RESULT",Toast.LENGTH_LONG).show();
+        switch (requestCode){
+            case AGREGAR_FOTO_ACTIVITY:
+            if(resultCode == RESULT_OK){
+                listaFotos = new ArrayList<Foto>();
+                Bundle showViewActivity = data.getExtras();
+                tipo_vista = showViewActivity.getString("tipo_vista");
+                foto = (Foto) showViewActivity.getSerializable("datos_foto");
+                listaFotos.add(new Foto(foto.getNombre_foto(),foto.getNombre_descriptivo(),foto.getLugar(),foto.getFecha(),foto.getDescripcion(),foto.getPersonas_animales_etc(),foto.getFoto()));
+                recyclerView = findViewById(R.id.recycler);
+                recyclerView.setHasFixedSize(true);
+                mLayoutManager = new LinearLayoutManager(this);
+                recyclerView.setLayoutManager(mLayoutManager);
+                DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                recyclerView.addItemDecoration(mDividerItemDecoration);
+                myAdapterRecyclerView = new MyAdapterRecyclerView(listaFotos);
+                recyclerView.setAdapter(myAdapterRecyclerView);
 
-        if(requestCode == AGREGAR_FOTO_ACTIVITY && resultCode == RESULT_OK){
-            Bundle showViewActivity = data.getExtras();
-            listaFotos = (List<Foto>) getIntent().getExtras().getSerializable("lista");
-            tipo_vista = showViewActivity.getString("tipo_vista");
-            foto = (Foto) showViewActivity.getSerializable("datos_foto");
-            //Toast.makeText(ShowViewsActivity.this,"ENTRO"+ foto.getNombre_foto(),Toast.LENGTH_LONG).show();
-            //Log.i("ENTROACTIVITY",""+foto.getNombre_foto());
-            listaFotos.add(foto);
-
-            recyclerView = (RecyclerView) findViewById(R.id.recycler);
-            recyclerView.setHasFixedSize(true);
-            //Toast.makeText(getApplicationContext(),""+ foto.getNombre_foto()+"",Toast.LENGTH_LONG).show();
-            mLayoutManager = new LinearLayoutManager(this);
-            recyclerView.setLayoutManager(mLayoutManager);
-            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            recyclerView.addItemDecoration(mDividerItemDecoration);
-            myAdapterRecyclerView = new MyAdapterRecyclerView(listaFotos);
-            recyclerView.setAdapter(myAdapterRecyclerView);
-
+            }
+            break;
         }
     }
 
@@ -130,7 +139,7 @@ public class ShowViewsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add_photo:
                 Intent intent = new Intent(ShowViewsActivity.this, AgregarFotoActivity.class);
-                intent.putExtra("lista_fotos",(Serializable) listaFotos);
+                intent.putExtra("getLista",(Serializable) getlistaFotos);
                 startActivityForResult(intent,1);
                 return true;
             case android.R.id.home:

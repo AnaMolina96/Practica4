@@ -22,15 +22,9 @@ import java.util.List;
 public class AgregarFotoActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    public static int AGREGAR_FOTO_ACTIVITY = 1;
-
     private Foto datos_foto;
-
     private Intent intent;
-
-    private EditText nombreArchivo, nombreDescriptivo,lugar,
-            fecha,descripcion,personas_animales_cosas;
-
+    private EditText nombreArchivo, nombreDescriptivo,lugar,fecha,descripcion,personas_animales_cosas;
     private ImageView imagen;
     private String tipo_vista;
     private ImageButton camara;
@@ -38,22 +32,19 @@ public class AgregarFotoActivity extends AppCompatActivity {
     private Date date;
     private Bitmap imageBitmap;
     private byte[] byteArray;
-    private List<Foto> listaFotos = new ArrayList<>();
+    private List<Foto> getlistaFotos = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.agregar_foto);
 
-        //List<Foto> listaFotos;
-
         Bundle showViewActivity = getIntent().getExtras();
-        listaFotos = (List<Foto>) showViewActivity.getSerializable("lista");
+        getlistaFotos = (List<Foto>) showViewActivity.getSerializable("getLista");
         tipo_vista = showViewActivity.getString("tipo_vista");
-        //listaFotos = (List<Foto>) getIntent().getExtras().getSerializable("lista");
+
+
         camara = (ImageButton) findViewById(R.id.imageButtonTomarFoto);
-
-
         imagen = (ImageView) findViewById(R.id.imageViewImagen);
         nombreArchivo = (EditText) findViewById(R.id.editTextNombreArchivo);
         nombreDescriptivo = (EditText) findViewById(R.id.editTextNombreDescriptivo);
@@ -84,22 +75,18 @@ public class AgregarFotoActivity extends AppCompatActivity {
                 if (nombreArchivo.getText().toString().equalsIgnoreCase("")|| nombreDescriptivo.getText().toString().equalsIgnoreCase("")||
                         lugar.getText().toString().equalsIgnoreCase("")|| fecha.getText().toString().equalsIgnoreCase("")|| descripcion.getText().toString().equalsIgnoreCase("")||
                         personas_animales_cosas.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(getApplicationContext(), "Por favor, llene todos los datos antes de guardar la informacion", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error, llene toda la información", Toast.LENGTH_LONG).show();
 
                 } else {
                     datos_foto = new Foto(nombreArchivo.getText().toString(),nombreDescriptivo.getText().toString(),
                             lugar.getText().toString(),date,descripcion.getText().toString(),personas_animales_cosas.getText().toString(),byteArray);
-                    //listaFotos.add(datos_foto);
                     intent = new Intent(AgregarFotoActivity.this,ShowViewsActivity.class);
                     intent.putExtra("datos_foto",datos_foto);
                     intent.putExtra("tipo_vista",tipo_vista);
-                    intent.putExtra("lista",(Serializable)listaFotos);
-                    //setResult(RESULT_OK,intent);
-                    startActivity(intent);
-                    //finish();
+                    intent.putExtra("getLista",(Serializable)getlistaFotos);
+                    setResult(RESULT_OK,intent);
+                    finish();
                 }
-
-
             }
         });
     }
